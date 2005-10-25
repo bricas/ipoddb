@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+=head1 NAME 
+
+ipoddb - launch the iPod database browser
+
+=head1 SYNOPSIS
+
+    % ipoddb
+
+=head1 DESCRIPTION
+
+This script starts the iPod database browser. 
+
+=head1 AUTHOR
+
+=over 4 
+
+=item * Brian Cassidy E<lt>bricas@cpan.orgE<gt>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2004 by Brian Cassidy
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
+=cut
+
+use strict;
+use warnings;
+
+use iPodDB;
+use Pod::Usage;
+
+pod2usage( { verbose => 1 } ) if @ARGV;
+
+iPodDB->new->run;
