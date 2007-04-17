@@ -24,7 +24,7 @@ use warnings;
 
 use iPodDB::MainWindow;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $APPNAME = 'iPod Database Browser';
 
 =head1 METHODS
