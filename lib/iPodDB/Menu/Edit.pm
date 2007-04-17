@@ -6,7 +6,7 @@ iPodDB::Menu::Edit - the edit menu
 
 =head1 SYNOPSIS
 
-	my $edit = iPodDB::Menu::Edit->new( $frame );
+    my $edit = iPodDB::Menu::Edit->new( $frame );
 
 =head1 DESCRIPTION
 
@@ -30,17 +30,17 @@ Creates the menu and sets up the callbacks when menu items are clicked.
 =cut
 
 sub new {
-	my $class  = shift;
-	my $parent = shift;
-	my $self   = $class->SUPER::new;
+    my $class  = shift;
+    my $parent = shift;
+    my $self   = $class->SUPER::new;
 
-	bless $self, $class;
-	
-	$self->Append( my $pref_id = Wx::NewId, '&Preferences', 'Modify your preferences' );
+    bless $self, $class;
+    
+    $self->Append( my $pref_id = Wx::NewId, '&Preferences', 'Modify your preferences' );
 
-	$parent->EVT_MENU( $pref_id, \&on_preferences );
+    $parent->EVT_MENU( $pref_id, \&on_preferences );
 
-	return $self;
+    return $self;
 }
 
 =head1 EVENTS
@@ -53,20 +53,20 @@ the preferences dialog for the user to modify then attempt to load the new datab
 =cut
 
 sub on_preferences {
-	my $self        = shift;
-	my $preferences = $self->preferences;
-	my $mountpoint  = $preferences->mountpoint;
+    my $self        = shift;
+    my $preferences = $self->preferences;
+    my $mountpoint  = $preferences->mountpoint;
 
-	$preferences->mountpoint( undef );
-	$self->load_database;
+    $preferences->mountpoint( undef );
+    $self->load_database;
 
-	if( defined $preferences->mountpoint ) {
-		$self->playlist->populate( $self->database->playlists ) if $self->database;
-		$self->playlist->select_root;
-	}
-	else {
-		$preferences->mountpoint( $mountpoint );
-	}
+    if( defined $preferences->mountpoint ) {
+        $self->playlist->populate( $self->database->playlists ) if $self->database;
+        $self->playlist->select_root;
+    }
+    else {
+        $preferences->mountpoint( $mountpoint );
+    }
 }
 
 =head1 AUTHOR

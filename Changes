@@ -1,38 +1,39 @@
 Revision history for Perl extension iPodDB.
 
-0.04  Sat Mar 25 2005
-	- added pod_coverage.t
+0.04  Tue Apr 17 2007
+        - added pod_coverage.t
+        - packaging updates
 
 0.03  Mon Oct 18 20:36:14 2004
-	[Application Changes]
-	- added playlist selection pane
+        [Application Changes]
+        - added playlist selection pane
 
-	[Code Changes]
-	- added a splitter for the two panes
-	- moved Playlist.pm to Songlist.pm
-	- new Playlist.pm for playlist tree
-	- added run() method as an alias for MainLoop
-	- bin/ipoddb now uses run()
-	- added support for zeros in the statusbar
+        [Code Changes]
+        - added a splitter for the two panes
+        - moved Playlist.pm to Songlist.pm
+        - new Playlist.pm for playlist tree
+        - added run() method as an alias for MainLoop
+        - bin/ipoddb now uses run()
+        - added support for zeros in the statusbar
 
 0.02  Fri Oct 08 12:10:23 2004
-	[Application Changes]
-	- main window is now 75% of screen size on startup
-	- added Help menu with About section
-	- columns can now be sorted in both ascending and descending order
-	- added ability to drag files from the list to a folder
-	- added extra statusbar area for help text
-	- added ability to abort a "Copy To" operation
+        [Application Changes]
+        - main window is now 75% of screen size on startup
+        - added Help menu with About section
+        - columns can now be sorted in both ascending and descending order
+        - added ability to drag files from the list to a folder
+        - added extra statusbar area for help text
+        - added ability to abort a "Copy To" operation
 
-	[Code Changes]
-	- various pod fixes
-	- changed AppName to match CPAN description
-	- added help text to menu items
-	- songpath_to_dir() is now song_to_path() and is now an exportable
-	  method of iPodDB::Playlist
-	- renamed selected_songs to as_songobject()
-	- added method as_filedataobject() for clipboard/dragging operations
-	- added file overwrite handling on "Copy To"
+        [Code Changes]
+        - various pod fixes
+        - changed AppName to match CPAN description
+        - added help text to menu items
+        - songpath_to_dir() is now song_to_path() and is now an exportable
+          method of iPodDB::Playlist
+        - renamed selected_songs to as_songobject()
+        - added method as_filedataobject() for clipboard/dragging operations
+        - added file overwrite handling on "Copy To"
 
 0.01  Thu Oct 07 15:23:32 2004
-	- original version
+        - original version

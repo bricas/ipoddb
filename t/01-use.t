@@ -4,5 +4,5 @@ use strict;
 use warnings;
 
 BEGIN {
-	use_ok( 'iPodDB' );
+    use_ok( 'iPodDB' );
 }

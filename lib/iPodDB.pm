@@ -6,9 +6,9 @@ iPodDB - iPod music database browser
 
 =head1 SYNOPSIS
 
-	use iPodDB;
+    use iPodDB;
 
-	iPodDB->new->run;
+    iPodDB->new->run;
 
 =head1 DESCRIPTION
 
@@ -36,7 +36,7 @@ This is just an alias for Wx's MainLoop().
 =cut
 
 sub run {
-	$_[ 0 ]->MainLoop;
+    $_[ 0 ]->MainLoop;
 }
 
 =head2 OnInit( )
@@ -47,17 +47,17 @@ parameters and loads up an iPodDB::MainWindow object.
 =cut
 
 sub OnInit {
-	my $self = shift;
+    my $self = shift;
 
-	$self->SetAppName( $APPNAME );
-	$self->SetVendorName( 'Brian Cassidy' );
+    $self->SetAppName( $APPNAME );
+    $self->SetVendorName( 'Brian Cassidy' );
 
-	my $main = iPodDB::MainWindow->new;
+    my $main = iPodDB::MainWindow->new;
 
-	$self->SetTopWindow( $main );
-	$main->Show( 1 );
+    $self->SetTopWindow( $main );
+    $main->Show( 1 );
 
-	return 1;
+    return 1;
 }
 
 =head1 SEE ALSO

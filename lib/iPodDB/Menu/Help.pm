@@ -6,7 +6,7 @@ iPodDB::Menu::Help - the help menu
 
 =head1 SYNOPSIS
 
-	my $help = iPodDB::Menu::Help->new( $frame );
+    my $help = iPodDB::Menu::Help->new( $frame );
 
 =head1 DESCRIPTION
 
@@ -32,17 +32,17 @@ Creates the menu and sets up the callbacks when menu items are clicked.
 =cut
 
 sub new {
-	my $class  = shift;
-	my $parent = shift;
-	my $self   = $class->SUPER::new;
+    my $class  = shift;
+    my $parent = shift;
+    my $self   = $class->SUPER::new;
 
-	bless $self, $class;
-	
-	$self->Append( my $about_id = Wx::NewId, '&About', 'About iPodDB' );
+    bless $self, $class;
+    
+    $self->Append( my $about_id = Wx::NewId, '&About', 'About iPodDB' );
 
-	EVT_MENU( $parent, $about_id, \&on_about );
+    EVT_MENU( $parent, $about_id, \&on_about );
 
-	return $self;
+    return $self;
 }
 
 =head1 EVENTS
@@ -55,9 +55,9 @@ a dialog with the credits for this application.
 =cut
 
 sub on_about {
-	my $self = shift;
+    my $self = shift;
 
-	Wx::MessageBox( "iPodDB Version $iPodDB::VERSION\nCopyright 2004 by Brian Cassidy", 'About iPodDB', wxOK | wxICON_INFORMATION, $self );
+    Wx::MessageBox( "iPodDB Version $iPodDB::VERSION\nCopyright 2004 by Brian Cassidy", 'About iPodDB', wxOK | wxICON_INFORMATION, $self );
 }
 
 =head1 AUTHOR

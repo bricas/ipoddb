@@ -6,7 +6,7 @@ iPodDB::Database - iPod music database
 
 =head1 SYNOPSIS
 
-	my $database = iPodDB::Database->new( $file );
+    my $database = iPodDB::Database->new( $file );
 
 =head1 DESCRIPTION
 
@@ -30,17 +30,17 @@ Loads the iPod database. Returns undef if a failure occurs.
 =cut
 
 sub new {
-	my $class = shift;
-	my $file  = shift;
-	my $self;
+    my $class = shift;
+    my $file  = shift;
+    my $self;
 
-	eval{ $self = $class->SUPER::new( $file ); };
+    eval{ $self = $class->SUPER::new( $file ); };
 
-	return undef unless $self;
+    return undef unless $self;
 
-	bless $self, $class;
+    bless $self, $class;
 
-	return $self;
+    return $self;
 }
 
 =head1 SEE ALSO

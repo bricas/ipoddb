@@ -6,7 +6,7 @@ iPodDB::MainWindow - main window of the iPodb database browser
 
 =head1 SYNOPSIS
 
-	my $main = iPodDB::MainWindow->new;
+    my $main = iPodDB::MainWindow->new;
 
 =head1 DESCRIPTION
 
@@ -73,39 +73,39 @@ This creates the main window and all of its sub components. It will also call th
 =cut
 
 sub new {
-	my $class = shift;
-	my $size  = Wx::GetDisplaySize;
-	my $self  = $class->SUPER::new( undef, -1, 'iPod Database Viewer', [ 0, 0 ], [ int( $size->GetWidth * 0.75 ), int( $size->GetHeight * 0.75 ) ] );
-	$self->Centre( wxBOTH );
+    my $class = shift;
+    my $size  = Wx::GetDisplaySize;
+    my $self  = $class->SUPER::new( undef, -1, 'iPod Database Viewer', [ 0, 0 ], [ int( $size->GetWidth * 0.75 ), int( $size->GetHeight * 0.75 ) ] );
+    $self->Centre( wxBOTH );
 
-	bless $self, $class;
+    bless $self, $class;
 
-	# Load preferences and database
-	$self->preferences( iPodDB::Preferences->new );
-	$self->load_database;
+    # Load preferences and database
+    $self->preferences( iPodDB::Preferences->new );
+    $self->load_database;
 
-	# Add status and menu bars
-	$self->status( iPodDB::Status->new( $self ) );
-	$self->menu( iPodDB::Menu->new( $self ) );
+    # Add status and menu bars
+    $self->status( iPodDB::Status->new( $self ) );
+    $self->menu( iPodDB::Menu->new( $self ) );
 
-	# Create the split interface
-	$self->splitter( Wx::SplitterWindow->new( $self, -1, wxDefaultPosition, wxDefaultSize, wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN ) );
+    # Create the split interface
+    $self->splitter( Wx::SplitterWindow->new( $self, -1, wxDefaultPosition, wxDefaultSize, wxNO_FULL_REPAINT_ON_RESIZE | wxCLIP_CHILDREN ) );
 
-	# Load song list
-	$self->songlist( iPodDB::Songlist->new( $self->splitter ) );
+    # Load song list
+    $self->songlist( iPodDB::Songlist->new( $self->splitter ) );
 
-	# Load playlist tree, link it to the songlist and populate it
-	$self->playlist( iPodDB::Playlist->new( $self->splitter, $self->songlist ) );
-	$self->playlist->populate( $self->database->playlists ) if $self->database;
+    # Load playlist tree, link it to the songlist and populate it
+    $self->playlist( iPodDB::Playlist->new( $self->splitter, $self->songlist ) );
+    $self->playlist->populate( $self->database->playlists ) if $self->database;
 
-	# Add elements to split interface
-	$size = $self->GetSize;
-	$self->splitter->SplitVertically( $self->playlist, $self->songlist, int( $size->GetWidth * 0.15 ) );
+    # Add elements to split interface
+    $size = $self->GetSize;
+    $self->splitter->SplitVertically( $self->playlist, $self->songlist, int( $size->GetWidth * 0.15 ) );
 
-	# Select the first playlist to get things going
-	$self->playlist->select_root;
+    # Select the first playlist to get things going
+    $self->playlist->select_root;
 
-	return $self;
+    return $self;
 }
 
 =head2 load_database( )
@@ -116,21 +116,21 @@ are set, or the database could not be found, it will pop up the prefences dialog
 =cut
 
 sub load_database {
-	my $self        = shift;
-	my $preferences = $self->preferences;
+    my $self        = shift;
+    my $preferences = $self->preferences;
 
-	$preferences->get_preferences( $self ) unless $preferences->mountpoint;
+    $preferences->get_preferences( $self ) unless $preferences->mountpoint;
 
-	my $database    = iPodDB::Database->new( $preferences->database );
+    my $database    = iPodDB::Database->new( $preferences->database );
 
-	while( $preferences->mountpoint and not $database ) {
-		Wx::MessageDialog->new(	$self, 'iTunesDB not found at mount point', 'Error', wxOK )->ShowModal unless $database;
+    while( $preferences->mountpoint and not $database ) {
+        Wx::MessageDialog->new(    $self, 'iTunesDB not found at mount point', 'Error', wxOK )->ShowModal unless $database;
 
-		$preferences->get_preferences( $self );
-		$database = iPodDB::Database->new( $preferences->database );
-	}
+        $preferences->get_preferences( $self );
+        $database = iPodDB::Database->new( $preferences->database );
+    }
 
-	$self->database( $database ) if $database;
+    $self->database( $database ) if $database;
 }
 
 =head1 AUTHOR

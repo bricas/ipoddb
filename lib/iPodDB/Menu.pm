@@ -6,7 +6,7 @@ iPodDB::Menu - iPodDB Menu bar
 
 =head1 SYNOPSIS
 
-	my $menu = iPodDB::Menu->new( $frame );
+    my $menu = iPodDB::Menu->new( $frame );
 
 =head1 DESCRIPTION
 
@@ -36,19 +36,19 @@ Creates the menu bar and adds the File, Edit and Help menus to it.
 =cut
 
 sub new {
-	my $class  = shift;
-	my $parent = shift;
-	my $self   = $class->SUPER::new;
+    my $class  = shift;
+    my $parent = shift;
+    my $self   = $class->SUPER::new;
 
-	bless $self, $class;
+    bless $self, $class;
 
-	$self->Append( iPodDB::Menu::File->new( $parent ), '&File' );
-	$self->Append( iPodDB::Menu::Edit->new( $parent ), '&Edit' );
-	$self->Append( iPodDB::Menu::Help->new( $parent ), '&Help' );
+    $self->Append( iPodDB::Menu::File->new( $parent ), '&File' );
+    $self->Append( iPodDB::Menu::Edit->new( $parent ), '&Edit' );
+    $self->Append( iPodDB::Menu::Help->new( $parent ), '&Help' );
 
-	$parent->SetMenuBar( $self );
+    $parent->SetMenuBar( $self );
 
-	return $self;
+    return $self;
 }
 
 =head1 AUTHOR

@@ -6,8 +6,8 @@ iPodDB::Songlist - listing of songs in a playlist
 
 =head1 SYNOPSIS
 
-	my $songlist = iPodDB::Songlist->new( $frame );
-	$songlist->populate( $playlist );
+    my $songlist = iPodDB::Songlist->new( $frame );
+    $songlist->populate( $playlist );
 
 =head1 DESCRIPTION
 
@@ -60,22 +60,22 @@ This creates the list widget.
 =cut
 
 sub new {
-	my $class  = shift;
-	my $parent = shift;
+    my $class  = shift;
+    my $parent = shift;
 
-	my $self   = $class->SUPER::new( $parent, -1, [ -1, -1 ], [ -1, -1 ], wxLC_REPORT | wxLC_VRULES | wxLC_HRULES );
+    my $self   = $class->SUPER::new( $parent, -1, [ -1, -1 ], [ -1, -1 ], wxLC_REPORT | wxLC_VRULES | wxLC_HRULES );
 
-	bless $self, $class;
+    bless $self, $class;
 
-	$self->InsertColumn( $_, ucfirst( $columns[ $_ ] ) ) for 0..$#columns;
+    $self->InsertColumn( $_, ucfirst( $columns[ $_ ] ) ) for 0..$#columns;
 
-	$self->EVT_LIST_COL_CLICK( $self, \&on_column_click );
-	$self->EVT_LIST_ITEM_RIGHT_CLICK( $self, \&on_row_right_click );
-	$self->EVT_LIST_ITEM_SELECTED( $self, \&on_select );
-	$self->EVT_LIST_ITEM_DESELECTED( $self, \&on_select );
-	$self->EVT_LIST_BEGIN_DRAG( $self, \&on_drag );
+    $self->EVT_LIST_COL_CLICK( $self, \&on_column_click );
+    $self->EVT_LIST_ITEM_RIGHT_CLICK( $self, \&on_row_right_click );
+    $self->EVT_LIST_ITEM_SELECTED( $self, \&on_select );
+    $self->EVT_LIST_ITEM_DESELECTED( $self, \&on_select );
+    $self->EVT_LIST_BEGIN_DRAG( $self, \&on_drag );
 
-	return $self;
+    return $self;
 }
 
 =head2 populate( @songs )
@@ -86,39 +86,39 @@ update the status bar.
 =cut
 
 sub populate {
-	my $self   = shift;
-	my @songs  = @_;
-	my $status = $self->GetGrandParent->status;
+    my $self   = shift;
+    my @songs  = @_;
+    my $status = $self->GetGrandParent->status;
 
-	$self->DeleteAllItems;
-	$status->clear;
+    $self->DeleteAllItems;
+    $status->clear;
 
-	return unless @songs;
+    return unless @songs;
 
-	my $time;
-	my $filesize;
-	for my $index ( 0...$#songs ) {
-		my $id   = $self->InsertItem( Wx::ListItem->new );
-		my $song = $songs[ $index ];
+    my $time;
+    my $filesize;
+    for my $index ( 0...$#songs ) {
+        my $id   = $self->InsertItem( Wx::ListItem->new );
+        my $song = $songs[ $index ];
 
-		for( 0..$#columns ) {
-			my $column = $columns[ $_ ];
-			$self->SetItem( $id, $_, $song->$column );
-		}
-		$self->SetItemData( $id, $index );
+        for( 0..$#columns ) {
+            my $column = $columns[ $_ ];
+            $self->SetItem( $id, $_, $song->$column );
+        }
+        $self->SetItemData( $id, $index );
 
-		$time     += $song->time;
-		$filesize += $song->filesize;
-	}
+        $time     += $song->time;
+        $filesize += $song->filesize;
+    }
 
-	$self->songs( \@songs );
+    $self->songs( \@songs );
 
-	$status->songs( scalar @songs );
-	$status->time( $time );
-	$status->size( $filesize );
+    $status->songs( scalar @songs );
+    $status->time( $time );
+    $status->size( $filesize );
 
-	$self->SetColumnWidth( $_, -1 ) for 0..$#columns;
-	$self->SortItems( sub { return $self->cmp_songs( $current_sort, @_ ); } );
+    $self->SetColumnWidth( $_, -1 ) for 0..$#columns;
+    $self->SortItems( sub { return $self->cmp_songs( $current_sort, @_ ); } );
 }
 
 =head2 as_songobject( [ @items ] )
@@ -129,21 +129,21 @@ If no list is provided the currently selected items are used.
 =cut
 
 sub as_songobject {
-	my $self     = shift;
-	my @items    = @_;
-	my @allsongs = @{ $self->songs };
-	my $item     = -1;
-	my @songs;
+    my $self     = shift;
+    my @items    = @_;
+    my @allsongs = @{ $self->songs };
+    my $item     = -1;
+    my @songs;
 
-	unless( @items ) {
-		while( ( $item = $self->GetNextItem( $item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED ) ) != -1 ) {
-			push @items, $self->GetItemData( $item );
-		}
-	}
+    unless( @items ) {
+        while( ( $item = $self->GetNextItem( $item, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED ) ) != -1 ) {
+            push @items, $self->GetItemData( $item );
+        }
+    }
 
-	push @songs, $allsongs[ $_ ] for @items;
+    push @songs, $allsongs[ $_ ] for @items;
 
-	return @songs;
+    return @songs;
 }
 
 =head2 as_filedataobject( [ @items ] )
@@ -155,17 +155,17 @@ selected items are used.
 =cut
 
 sub as_filedataobject {
-	my $self  = shift;
-	my @items = @_;
-	my $path  = dir( $self->GetGrandParent->preferences->mountpoint );
-	my $files = Wx::FileDataObject->new;
-	
-	for my $song ( $self->as_songobject( @items ) ) {
-		my $file = song_to_path( $path, $song );
-		$files->AddFile( $file->stringify );
-	}
+    my $self  = shift;
+    my @items = @_;
+    my $path  = dir( $self->GetGrandParent->preferences->mountpoint );
+    my $files = Wx::FileDataObject->new;
+    
+    for my $song ( $self->as_songobject( @items ) ) {
+        my $file = song_to_path( $path, $song );
+        $files->AddFile( $file->stringify );
+    }
 
-	return $files;
+    return $files;
 }
 
 =head2 cmp_songs( $column, $a, $b )
@@ -175,22 +175,22 @@ This is the sorting function.
 =cut
 
 sub cmp_songs {
-	my $self   = shift;
-	my $column = shift;
-	my $a      = shift;
-	my $b      = shift;
-	my @songs  = @{ $self->songs };
-	my $field  = $columns[ $column ];
+    my $self   = shift;
+    my $column = shift;
+    my $a      = shift;
+    my $b      = shift;
+    my @songs  = @{ $self->songs };
+    my $field  = $columns[ $column ];
 
-	return 0 unless @songs;
+    return 0 unless @songs;
 
-	if( $column_sort[ $column ] == DESCENDING ) {
-		my $temp = $a;
-		$a       = $b;
-		$b       = $temp;
-	}
+    if( $column_sort[ $column ] == DESCENDING ) {
+        my $temp = $a;
+        $a       = $b;
+        $b       = $temp;
+    }
 
-	return $songs[ $a ]->$field cmp $songs[ $b ]->$field;
+    return $songs[ $a ]->$field cmp $songs[ $b ]->$field;
 }
 
 =head2 song_to_path( $directory, $song )
@@ -201,14 +201,14 @@ the stored path to a path relative to the $directory. This method is available f
 =cut
 
 sub song_to_path {
-	my $dir  = shift;
-	my @path = split( ':', shift->path );
+    my $dir  = shift;
+    my @path = split( ':', shift->path );
 
-	for( 1..$#path ) {
-		$dir = $_ == $#path ? $dir->file( $path[ $_ ] ) : $dir->subdir( $path[ $_ ] );
-	}
+    for( 1..$#path ) {
+        $dir = $_ == $#path ? $dir->file( $path[ $_ ] ) : $dir->subdir( $path[ $_ ] );
+    }
 
-	return $dir;
+    return $dir;
 }
 
 =head1 EVENTS
@@ -221,18 +221,18 @@ flip between ascending order and descending order on every click.
 =cut
 
 sub on_column_click {
-	my $self   = shift;
-	my $event  = shift;
-	my $column = $event->GetColumn;
+    my $self   = shift;
+    my $event  = shift;
+    my $column = $event->GetColumn;
 
-	if( $current_sort == $column ) {
-		$column_sort[ $column ] ^= 1;
-	}
-	else {
-		$current_sort = $column;
-	}
+    if( $current_sort == $column ) {
+        $column_sort[ $column ] ^= 1;
+    }
+    else {
+        $current_sort = $column;
+    }
 
-	$self->SortItems( sub { return $self->cmp_songs( $column, @_ ); } );
+    $self->SortItems( sub { return $self->cmp_songs( $column, @_ ); } );
 }
 
 =head2 on_row_right_click( )
@@ -242,13 +242,13 @@ This event will pop up the File menu as long as at least one song is selected.
 =cut
 
 sub on_row_right_click {
-	my $self   = shift;
-	my $event  = shift;
-	my $parent = $self->GetGrandParent;
+    my $self   = shift;
+    my $event  = shift;
+    my $parent = $self->GetGrandParent;
 
-	if( $self->GetSelectedItemCount ) {
-		$parent->PopupMenu( iPodDB::Menu::File->new( $parent ), $event->GetPoint );
-	}
+    if( $self->GetSelectedItemCount ) {
+        $parent->PopupMenu( iPodDB::Menu::File->new( $parent ), $event->GetPoint );
+    }
 }
 
 =head2 on_select( )
@@ -259,16 +259,16 @@ or deselected.
 =cut
 
 sub on_select {
-	my $self   = shift;
-	my $menu   = $self->GetGrandParent->menu;
-	my $enable = $self->GetSelectedItemCount ? 1 : 0;
+    my $self   = shift;
+    my $menu   = $self->GetGrandParent->menu;
+    my $enable = $self->GetSelectedItemCount ? 1 : 0;
 
-	my @menus  = ( 'File', 'Copy To...', 'File', 'Copy' );
+    my @menus  = ( 'File', 'Copy To...', 'File', 'Copy' );
 
-	while( @menus ) {
-		my $item   = $menu->FindMenuItem( shift( @menus ), shift( @menus ) );
-		$menu->Enable( $item, $enable );
-	}
+    while( @menus ) {
+        my $item   = $menu->FindMenuItem( shift( @menus ), shift( @menus ) );
+        $menu->Enable( $item, $enable );
+    }
 }
 
 =head2 on_drag()
@@ -278,11 +278,11 @@ This event allows a user to drag files to a destination.
 =cut
 
 sub on_drag {
-	my $self = shift;
+    my $self = shift;
 
-	return unless $self->GetSelectedItemCount;
+    return unless $self->GetSelectedItemCount;
 
-	Wx::DropSource->new( $self->as_filedataobject, $self->GetGrandParent )->DoDragDrop;
+    Wx::DropSource->new( $self->as_filedataobject, $self->GetGrandParent )->DoDragDrop;
 }
 
 =head1 AUTHOR

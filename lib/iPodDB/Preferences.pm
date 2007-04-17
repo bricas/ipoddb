@@ -6,7 +6,7 @@ iPodDB::Preferences - Store and Retrieve preferences
 
 =head1 SYNOPSIS
 
-	my $preferences = iPodDB::Preferences->new;
+    my $preferences = iPodDB::Preferences->new;
 
 =head1 DESCRIPTION
 
@@ -49,14 +49,14 @@ Gets the application preferences via Wx::ConfigBase::Get.
 =cut
 
 sub new {
-	my $class  = shift;
-	my $self   = $class->SUPER::new;
-	my $config = Wx::ConfigBase::Get;
+    my $class  = shift;
+    my $self   = $class->SUPER::new;
+    my $config = Wx::ConfigBase::Get;
 
-	$config->Write( 'version' => $iPodDB::VERSION );
-	$self->config( $config );
+    $config->Write( 'version' => $iPodDB::VERSION );
+    $self->config( $config );
 
-	return $self;
+    return $self;
 }
 
 =head2 get_preferences( [ $frame ] )
@@ -66,16 +66,16 @@ This will load up the perferences dialog so the user can customize the applcatio
 =cut
 
 sub get_preferences {
-	my $self   = shift;
-	my $parent = shift;
-	my $dialog = Wx::DirDialog->new( $parent, 'Select iPod mount location' );
+    my $self   = shift;
+    my $parent = shift;
+    my $dialog = Wx::DirDialog->new( $parent, 'Select iPod mount location' );
 
-	unless( $dialog->ShowModal == wxID_OK ) {
-		$self->mountpoint( undef );
-		return;
-	}
+    unless( $dialog->ShowModal == wxID_OK ) {
+        $self->mountpoint( undef );
+        return;
+    }
 
-	$self->mountpoint( $dialog->GetPath );
+    $self->mountpoint( $dialog->GetPath );
 }
 
 =head2 config( [ $config ] )
@@ -105,22 +105,22 @@ This should not be used directly, rather use the properties above (as methods).
 =cut
 
 sub set {
-	my $self    = shift;
-	my $key     = shift;
-	my $value   = shift;
-	my $config  = $self->config;
-	my $trigger = "on_$key";
+    my $self    = shift;
+    my $key     = shift;
+    my $value   = shift;
+    my $config  = $self->config;
+    my $trigger = "on_$key";
 
-	if( not defined $value ) {
-		$config->DeleteEntry( $key ) if $config->Exists( $key );
-	}
-	else {
-		$config->Write( $key => $value );
-	}
+    if( not defined $value ) {
+        $config->DeleteEntry( $key ) if $config->Exists( $key );
+    }
+    else {
+        $config->Write( $key => $value );
+    }
 
-	$self->$trigger( $value ) if $self->can( $trigger );
+    $self->$trigger( $value ) if $self->can( $trigger );
 
-	return $value;
+    return $value;
 }
 
 =head2 get( $key )
@@ -132,12 +132,12 @@ This should not be used directly, rather use the properties above (as methods).
 =cut
 
 sub get {
-	my $self   = shift;
-	my $key    = shift;
-	my $config = $self->config;
+    my $self   = shift;
+    my $key    = shift;
+    my $config = $self->config;
 
-	return undef unless $config->Exists( $key );
-	return $config->Read( $key );
+    return undef unless $config->Exists( $key );
+    return $config->Read( $key );
 }
 
 =head1 EVENTS
@@ -150,19 +150,19 @@ add the location of the iPod database on the mountpoint.
 =cut
 
 sub on_mountpoint {
-	my $self   = shift;
-	my $value  = shift;
+    my $self   = shift;
+    my $value  = shift;
 
-	return $self->database( undef ) unless defined $value;
+    return $self->database( undef ) unless defined $value;
 
-	my @path = split( /\//, DBPATH );
-	my $file = dir( $value );
+    my @path = split( /\//, DBPATH );
+    my $file = dir( $value );
 
-	for( 0..$#path ) {
-		$file = $_ == $#path ? $file->file( $path[ $_ ] ) : $file->subdir( $path[ $_ ] );
-	}
+    for( 0..$#path ) {
+        $file = $_ == $#path ? $file->file( $path[ $_ ] ) : $file->subdir( $path[ $_ ] );
+    }
 
-	$self->database( $file->stringify );
+    $self->database( $file->stringify );
 }
 
 =head1 AUTHOR
